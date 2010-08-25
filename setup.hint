@@ -1,0 +1,3 @@
+category: Devel
+requires: 
+sdesc: "Kernel headers for Linux x86_64 toolchain"
