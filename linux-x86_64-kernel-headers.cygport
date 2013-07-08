@@ -1,0 +1,25 @@
+CROSS_HOST="x86_64-pc-linux-gnu"
+inherit cross
+
+NAME="linux-x86_64-kernel-headers"
+VERSION=3.4.52
+RELEASE=1
+CATEGORY="Devel"
+SUMMARY="Kernel headers for Linux x86_64 toolchain"
+DESCRIPTION="This package does NOT contain cygwin binaries.  Instead, it
+contains Linux x86_64 binaries.  It is for use with the
+linux-x86_64-gcc cross compiler, and installs into the
+/usr/x86_64-pc-linux-gnu/sys-root/usr/{lib,include} directories."
+HOMEPAGE="http://www.kernel.org/"
+SRC_URI="http://www.kernel.org/pub/linux/kernel/v3.x/linux-${VERSION}.tar.xz"
+SRC_DIR="linux-${VERSION}"
+PATCH_URI="http://cygwin.com/ml/cygwin/2012-06/msg00221/0002-tools-include-use-stdint-types-for-user-space-bytesh.patch"
+
+src_compile() { :; }
+
+src_install() {
+	cd ${S}
+	cygmake headers_install INSTALL_HDR_PATH=${D}${CROSS_PREFIX} \
+		ARCH=x86_64 CROSS_COMPILE=${CROSS_HOST}- O=${B}
+	find ${D} -name '*.install*' -delete
+}
